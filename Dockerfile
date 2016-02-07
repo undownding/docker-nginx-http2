@@ -2,7 +2,7 @@ FROM debian:jessie
 
 RUN apt-get update \
         && apt-get install -y wget git build-essential \
-        && libxml2-dev libxslt-dev libgd-dev libgeoip-dev \
+        libxml2-dev libxslt-dev libgd-dev libgeoip-dev \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN cd /usr/local/src && wget http://nginx.org/download/nginx-1.9.10.tar.gz \
