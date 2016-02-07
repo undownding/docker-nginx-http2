@@ -27,7 +27,7 @@ RUN cd /usr/local/src/nginx-1.9.10 \
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log 
 
-RUN mkdir /var/lib/nginx
+RUN mkdir /var/lib/nginx &&  ln -s /usr/local/lib/libpcre.so.1 /lib64 &&  ln -s /usr/local/lib/libpcre.so.1 /lib64
 
 EXPOSE 80 443
 
