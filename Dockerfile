@@ -14,7 +14,7 @@ RUN apt-get update \
 RUN cd /usr/local/src && wget http://nginx.org/download/nginx-$nginx_version.tar.gz \
         && wget http://www.openssl.org/source/openssl-$openssl_version.tar.gz \
         && wget http://zlib.net/zlib-$zlib_version.tar.gz \
-        && wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$version.tar.gz \
+        && wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$pcre_version.tar.gz \
         && tar -zxvf nginx-$nginx_version.tar.gz \
         && tar -zxvf openssl-$openssl_version.tar.gz \
         && tar -zxvf zlib-$zlib_version.tar.gz \
