@@ -52,6 +52,8 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 
 RUN mkdir /var/lib/nginx 
 
+ENV LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib 
+
 EXPOSE 80 443
 
 CMD ["/usr/share/nginx/sbin/nginx", "-g", "daemon off;"]
