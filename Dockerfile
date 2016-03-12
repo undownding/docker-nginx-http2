@@ -1,25 +1,35 @@
 FROM debian:jessie
 
+ENV nginx_version 1.9.12
+ENV openssl_version 1.0.2g
+ENV zlib_version 1.2.8
+ENV pcre_version 8.38
+ENV geoip_version 1.6.6
+
 RUN apt-get update \
         && apt-get install -y wget git build-essential \
-        libxml2-dev libxslt-dev libgd-dev libgeoip-dev \
+        libxml2-dev libxslt-dev libgd-dev libtool \
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN cd /usr/local/src && wget http://nginx.org/download/nginx-1.9.12.tar.gz \
-        && wget http://www.openssl.org/source/openssl-1.0.2g.tar.gz \
-        && wget http://zlib.net/zlib-1.2.8.tar.gz \
-        && wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.38.tar.gz \
-        && tar -zxvf nginx-1.9.12.tar.gz \
-        && tar -zxvf openssl-1.0.2g.tar.gz \
-        && tar -zxvf zlib-1.2.8.tar.gz \
-        && tar -zxvf pcre-8.38.tar.gz \
+RUN cd /usr/local/src && wget http://nginx.org/download/nginx-$nginx_version.tar.gz \
+        && wget http://www.openssl.org/source/openss-$openssl_version.tar.gz \
+        && wget http://zlib.net/zlib-$zlib_version.tar.gz \
+        && wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$version.tar.gz \
+        && tar -zxvf nginx-$nginx_version.tar.gz \
+        && tar -zxvf openssl-$openssl_version.tar.gz \
+        && tar -zxvf zlib-$zlib_version.tar.gz \
+        && tar -zxvf pcre-$pcre_version.tar.gz \
+        && git clone https://github.com/maxmind/geoip-api-c -b v$geoip_version --depth=1 \
         && git clone https://github.com/yaoweibin/ngx_http_substitutions_filter_module.git \
         && rm *.tar.gz
 
-RUN cd /usr/local/src/pcre-8.38 \
+RUN cd /usr/local/src/pcre-$pcre_version \
         && ./configure && make && make install
+RUN cd /usr/local/src/geoip-api-c \
+        && ./configure && make && make install \
+        && echo '/usr/local/lib' > /etc/ld.so.conf.d/geoip.conf
 
-RUN cd /usr/local/src/nginx-1.9.12 \
+RUN cd /usr/local/src/nginx-$nginx_version \
         && ./configure --with-cc-opt='-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat \ 
            -Werror=format-security -D_FORTIFY_SOURCE=2' --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro' \
            --prefix=/usr/share/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log \
@@ -30,8 +40,8 @@ RUN cd /usr/local/src/nginx-1.9.12 \
            --with-http_stub_status_module --with-http_realip_module --with-http_addition_module --with-http_dav_module \
            --with-http_geoip_module --with-http_gzip_static_module --with-http_image_filter_module --with-http_sub_module \
            --with-http_xslt_module --with-mail --with-mail_ssl_module \
-           --add-module=/usr/local/src/ngx_http_substitutions_filter_module --with-openssl=/usr/local/src/openssl-1.0.2g \
-           --with-zlib=/usr/local/src/zlib-1.2.8 --with-stream --with-stream_ssl_module \
+           --add-module=/usr/local/src/ngx_http_substitutions_filter_module --with-openssl=/usr/local/src/openssl-$openssl_version \
+           --with-zlib=/usr/local/src/zlib-$zlib_version --with-stream --with-stream_ssl_module \
            --with-http_ssl_module --with-http_v2_module --with-threads \
         && make install 
 
@@ -39,7 +49,7 @@ RUN cd /usr/local/src/nginx-1.9.12 \
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log 
 
-RUN mkdir /var/lib/nginx &&  ln -s /usr/local/lib/libpcre.so.1 /lib64 &&  ln -s /usr/local/lib/libpcre.so.1 /lib
+RUN mkdir /var/lib/nginx 
 
 EXPOSE 80 443
 
