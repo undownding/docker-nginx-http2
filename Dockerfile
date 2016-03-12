@@ -26,6 +26,7 @@ RUN cd /usr/local/src && wget http://nginx.org/download/nginx-$nginx_version.tar
 RUN cd /usr/local/src/pcre-$pcre_version \
         && ./configure && make && make install
 RUN cd /usr/local/src/geoip-api-c \
+        && ./bootstrap
         && ./configure && make && make install \
         && echo '/usr/local/lib' > /etc/ld.so.conf.d/geoip.conf
 
