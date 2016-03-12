@@ -7,8 +7,8 @@ ENV pcre_version 8.38
 ENV geoip_version 1.6.6
 
 RUN apt-get update \
-        && apt-get install -y wget git build-essential \
-        libxml2-dev libxslt-dev libgd-dev libtool \
+        && apt-get install -y wget git build-essential curl \
+        libxml2-dev libxslt-dev libgd-dev libtool autoreconf \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN cd /usr/local/src && wget http://nginx.org/download/nginx-$nginx_version.tar.gz \
@@ -26,7 +26,7 @@ RUN cd /usr/local/src && wget http://nginx.org/download/nginx-$nginx_version.tar
 RUN cd /usr/local/src/pcre-$pcre_version \
         && ./configure && make && make install
 RUN cd /usr/local/src/geoip-api-c \
-        && ./bootstrap
+        && ./bootstrap \
         && ./configure && make && make install \
         && echo '/usr/local/lib' > /etc/ld.so.conf.d/geoip.conf
 
