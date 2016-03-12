@@ -12,7 +12,7 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN cd /usr/local/src && wget http://nginx.org/download/nginx-$nginx_version.tar.gz \
-        && wget http://www.openssl.org/source/openss-$openssl_version.tar.gz \
+        && wget http://www.openssl.org/source/openssl-$openssl_version.tar.gz \
         && wget http://zlib.net/zlib-$zlib_version.tar.gz \
         && wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$version.tar.gz \
         && tar -zxvf nginx-$nginx_version.tar.gz \
