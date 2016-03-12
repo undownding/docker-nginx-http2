@@ -8,7 +8,7 @@ ENV geoip_version 1.6.6
 
 RUN apt-get update \
         && apt-get install -y wget git build-essential curl \
-        libxml2-dev libxslt-dev libgd-dev libtool autoreconf \
+        libxml2-dev libxslt-dev libgd-dev libtool autoconf \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN cd /usr/local/src && wget http://nginx.org/download/nginx-$nginx_version.tar.gz \
