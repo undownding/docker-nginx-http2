@@ -60,8 +60,8 @@ if [ $comp_dockerfile -eq 1 ]; then
     comp_nginx=$?
     if [ $comp_nginx -eq 1 ]; then
         git tag $version_nginx
-        while ! git push origin $version; do sleep 3; done
-        while ! git push coding $version; do sleep 3; done
+        while ! git push origin $version_nginx; do sleep 3; done
+        while ! git push coding $version_nginx; do sleep 3; done
     fi
     
 fi
