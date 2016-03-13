@@ -2,11 +2,11 @@
 
 **NGINX** : 1.9.12
 
-**OpenSSL** : 
+**OpenSSL** : 1.0.2g
 
 **zlib** : 1.2.8
 
-**PCRE** : 
+**PCRE** : 8.38
 
 **GeoIP** : 1.6.6
 
