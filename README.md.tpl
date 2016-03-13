@@ -1,13 +1,13 @@
 # Nginx docker image with http/2
 
-**NGINX** : 1.9.12
+**NGINX** : NGINX_VERSION
 
-**OpenSSL** : 1.0.2g
+**OpenSSL** : OPENSSL_VERSION
 
-**zlib** : 1.2.8
+**zlib** : ZLIB_VERSION
 
-**PCRE** : 8.38
+**PCRE** : PCRE_VERSION
 
-**GeoIP** : 1.6.6
+**GeoIP** : GEOIP_VERSION
 
 And add [ngx_http_substitutions_filter_module](https://github.com/yaoweibin/ngx_http_substitutions_filter_module.git )
