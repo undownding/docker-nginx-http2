@@ -4,7 +4,7 @@ parse_json_from_url() {
     curl --connect-timeout 5 \
      --max-time 20 \
      --retry 10 \
-     --retry-delay 0 \ $1 | jq ".pkgver" | sed 's/\"//g'
+     --retry-delay 0 $1 | jq ".pkgver" | sed 's/\"//g'
 }
 
 url_nginx='https://www.archlinux.org/packages/extra/x86_64/nginx-mainline/json/'
