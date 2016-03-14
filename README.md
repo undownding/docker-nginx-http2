@@ -6,8 +6,8 @@
 
 **zlib** : 1.2.8
 
-**PCRE** : 
+**PCRE** : 8.38
 
-**GeoIP** : 
+**GeoIP** : 1.6.6
 
 And add [ngx_http_substitutions_filter_module](https://github.com/yaoweibin/ngx_http_substitutions_filter_module.git )
