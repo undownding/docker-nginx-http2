@@ -2,8 +2,8 @@
 
 parse_json_from_url() {
     curl --connect-timeout 5 \
-     --max-time 20 \
-     --retry 10 \
+     --max-time 40 \
+     --retry 20 \
      --retry-delay 0 $1 | jq ".pkgver" | sed 's/\"//g'
 }
 
