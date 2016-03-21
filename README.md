@@ -2,9 +2,9 @@
 
 **NGINX** : 1.9.12
 
-**OpenSSL** : 
+**OpenSSL** : 1.0.2g
 
-**zlib** : 
+**zlib** : 1.2.8
 
 **PCRE** : 8.38
 
