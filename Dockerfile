@@ -1,6 +1,6 @@
 FROM debian:jessie
 
-ENV nginx_version 1.9.12
+ENV nginx_version 
 ENV openssl_version 1.0.2g
 ENV zlib_version 1.2.8
 ENV pcre_version 8.38
