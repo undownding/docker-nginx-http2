@@ -20,8 +20,8 @@ version_zlib=$(parse_json_from_url $url_zlib)
 version_pcre=$(parse_json_from_url $url_pcre)
 version_geoip=$(parse_json_from_url $url_geoip)
 
-if ["x${version_openssl}" == "x"] then
-    exit 0;
+if [ ! $version_openssl ]; then
+    exit 0
 fi
 
 mv ./NGINX_VERSION ./OLD_NGINX_VERSION
