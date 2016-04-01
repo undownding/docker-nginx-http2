@@ -1,6 +1,6 @@
 FROM debian:jessie
 
-ENV nginx_version 1.9.12
+ENV nginx_version 1.9.13
 ENV openssl_version 1.0.2g
 ENV zlib_version 1.2.8
 ENV pcre_version 8.38
@@ -12,9 +12,11 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN cd /usr/local/src \
+        && wget http://nginx.org/download/nginx-$nginx_version.tar.gz \
         && wget http://www.openssl.org/source/openssl-$openssl_version.tar.gz \
         && wget http://zlib.net/zlib-$zlib_version.tar.gz \
         && wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$pcre_version.tar.gz \
+        && tar -zxf nginx-$nginx_version.tar.gz \
         && tar -zxf openssl-$openssl_version.tar.gz \
         && tar -zxf zlib-$zlib_version.tar.gz \
         && tar -zxf pcre-$pcre_version.tar.gz \
@@ -30,7 +32,7 @@ RUN cd /usr/local/src/geoip-api-c \
         && ./configure && make && make install \
         && echo '/usr/local/lib' > /etc/ld.so.conf.d/geoip.conf
 
-RUN cd /usr/local/src/nginx \
+RUN cd /usr/local/src/nginx-$nginx_version \
         && ./configure --with-cc-opt='-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat \ 
            -Werror=format-security -D_FORTIFY_SOURCE=2' --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro' \
            --prefix=/usr/share/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log \
