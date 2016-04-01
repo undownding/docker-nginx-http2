@@ -21,7 +21,7 @@ url_pcre='https://www.archlinux.org/packages/core/x86_64/pcre/json/'
 url_geoip='https://www.archlinux.org/packages/extra/x86_64/geoip/json/'
 
 # Get verison by ArchLinux api
-version_nginx=$(echo $(parse_json_from_url $url_nginx) | sed 's/release-//g')
+version_nginx=$(echo $(get_nginx_version $url_nginx) | sed 's/release-//g')
 version_openssl=$(echo $(parse_json_from_url $url_openssl) | sed 's/\(.*\)\.\(.*\)/\1\2/')
 version_zlib=$(parse_json_from_url $url_zlib)
 version_pcre=$(parse_json_from_url $url_pcre)
