@@ -22,7 +22,6 @@ RUN cd /usr/local/src \
         && tar -zxf pcre-$pcre_version.tar.gz \
         && git clone https://github.com/maxmind/geoip-api-c -b v$geoip_version --depth=1 \
         && git clone https://github.com/yaoweibin/ngx_http_substitutions_filter_module.git --depth=1 \
-        && git clone https://github.com/nginx/nginx -b release-$nginx_version --depth=1 \
         && rm *.tar.gz
 
 RUN cd /usr/local/src/pcre-$pcre_version \
