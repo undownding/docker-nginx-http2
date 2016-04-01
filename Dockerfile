@@ -1,6 +1,6 @@
 FROM debian:jessie
 
-ENV nginx_version 1.9.12
+ENV nginx_version 1.9.13
 ENV openssl_version 1.0.2g
 ENV zlib_version 1.2.8
 ENV pcre_version 8.38
@@ -11,16 +11,16 @@ RUN apt-get update \
         libxml2-dev libxslt-dev libgd-dev libtool autoconf \
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN cd /usr/local/src && wget http://nginx.org/download/nginx-$nginx_version.tar.gz \
+RUN cd /usr/local/src \
         && wget http://www.openssl.org/source/openssl-$openssl_version.tar.gz \
         && wget http://zlib.net/zlib-$zlib_version.tar.gz \
         && wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$pcre_version.tar.gz \
-        && tar -zxf nginx-$nginx_version.tar.gz \
         && tar -zxf openssl-$openssl_version.tar.gz \
         && tar -zxf zlib-$zlib_version.tar.gz \
         && tar -zxf pcre-$pcre_version.tar.gz \
         && git clone https://github.com/maxmind/geoip-api-c -b v$geoip_version --depth=1 \
         && git clone https://github.com/yaoweibin/ngx_http_substitutions_filter_module.git --depth=1 \
+        && git clone https://github.com/nginx/nginx -b release-$nginx_version --depth=1 \
         && rm *.tar.gz
 
 RUN cd /usr/local/src/pcre-$pcre_version \
@@ -30,7 +30,7 @@ RUN cd /usr/local/src/geoip-api-c \
         && ./configure && make && make install \
         && echo '/usr/local/lib' > /etc/ld.so.conf.d/geoip.conf
 
-RUN cd /usr/local/src/nginx-$nginx_version \
+RUN cd /usr/local/src/nginx \
         && ./configure --with-cc-opt='-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat \ 
            -Werror=format-security -D_FORTIFY_SOURCE=2' --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro' \
            --prefix=/usr/share/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log \
