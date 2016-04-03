@@ -4,27 +4,23 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN cd /usr/local/src \
-        && wget http://nginx.org/download/nginx-$nginx_version.tar.gz \
         && wget http://www.openssl.org/source/openssl-$openssl_version.tar.gz \
         && wget http://zlib.net/zlib-$zlib_version.tar.gz \
         && wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$pcre_version.tar.gz \
-        && tar -zxf nginx-$nginx_version.tar.gz \
         && tar -zxf openssl-$openssl_version.tar.gz \
         && tar -zxf zlib-$zlib_version.tar.gz \
         && tar -zxf pcre-$pcre_version.tar.gz \
         && git clone https://github.com/maxmind/geoip-api-c -b v$geoip_version --depth=1 \
         && git clone https://github.com/yaoweibin/ngx_http_substitutions_filter_module.git --depth=1 \
-        && rm *.tar.gz
-
-RUN cd /usr/local/src/pcre-$pcre_version \
-        && ./configure && make && make install
-RUN cd /usr/local/src/geoip-api-c \
+        && git clone https://github.com/nginx/nginx.git -b release-$nginx_version --depth=1 \
+        && rm *.tar.gz \
+        && cd /usr/local/src/pcre-$pcre_version \
+        && ./configure && make && make install \
+        && cd /usr/local/src/geoip-api-c \
         && ./bootstrap \
         && ./configure && make && make install \
-        && echo '/usr/local/lib' > /etc/ld.so.conf.d/geoip.conf
-
-RUN cd /usr/local/src/nginx-$nginx_version \
-        && ./configure --with-cc-opt='-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat \ 
+        && cd /usr/local/src/nginx \
+        && ./auto/configure --with-cc-opt='-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat \ 
            -Werror=format-security -D_FORTIFY_SOURCE=2' --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro' \
            --prefix=/usr/share/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log \
            --error-log-path=/var/log/nginx/error.log --lock-path=/var/lock/nginx.lock --pid-path=/run/nginx.pid \
@@ -37,7 +33,8 @@ RUN cd /usr/local/src/nginx-$nginx_version \
            --add-module=/usr/local/src/ngx_http_substitutions_filter_module --with-openssl=/usr/local/src/openssl-$openssl_version \
            --with-zlib=/usr/local/src/zlib-$zlib_version --with-stream --with-stream_ssl_module \
            --with-http_ssl_module --with-http_v2_module --with-threads \
-        && make install 
+        && make install \
+        && rm -rf /usr/local/src && mkdir -p /usr/local/src
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \

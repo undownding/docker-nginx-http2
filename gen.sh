@@ -35,6 +35,18 @@ if [ ! $version_openssl ]; then
     exit 0
 fi
 
+if [ ! $version_zlib ]; then
+    exit 0
+fi
+
+if [ ! $version_pcre ]; then
+    exit 0
+fi
+
+if [ ! $version_geoip ]; then
+    exit 0
+fi
+
 mv ./NGINX_VERSION ./OLD_NGINX_VERSION
 mv ./LIBRARY_VERSION ./OLD_LIBRARY_VERSION
 
