@@ -8,6 +8,6 @@
 
 **PCRE** : 8.38
 
-**GeoIP** : 1.6.6
+**GeoIP** : 1.6.9
 
 And add [ngx_http_substitutions_filter_module](https://github.com/yaoweibin/ngx_http_substitutions_filter_module.git )

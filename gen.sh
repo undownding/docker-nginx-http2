@@ -7,7 +7,7 @@ parse_json_from_url() {
      --retry-delay 0 $1 | jq ".pkgver" | sed 's/\"//g'
 }
 
-get_nginx_version() {
+get_version_from_github() {
     curl --connect-timeout 5 \
      --max-time 40 \
      --retry 20 \
@@ -18,14 +18,14 @@ url_nginx='https://api.github.com/repos/nginx/nginx/tags'
 url_openssl='https://www.archlinux.org/packages/core/x86_64/openssl/json/'
 url_zlib='https://www.archlinux.org/packages/core/x86_64/zlib/json/'
 url_pcre='https://www.archlinux.org/packages/core/x86_64/pcre/json/'
-url_geoip='https://www.archlinux.org/packages/extra/x86_64/geoip/json/'
+url_geoip='https://api.github.com/repos/maxmind/geoip-api-c/tags'
 
 # Get verison by ArchLinux api
-version_nginx=$(echo $(get_nginx_version $url_nginx) | sed 's/release-//g')
+version_nginx=$(echo $(get_version_from_github $url_nginx) | sed 's/release-//g')
 version_openssl=$(echo $(parse_json_from_url $url_openssl) | sed 's/\(.*\)\.\(.*\)/\1\2/')
 version_zlib=$(parse_json_from_url $url_zlib)
 version_pcre=$(parse_json_from_url $url_pcre)
-version_geoip=$(parse_json_from_url $url_geoip)
+version_geoip=$(echo $(get_version_from_github $url_geoip) | sed 's/v//g')
 
 if [ ! $version_nginx ]; then
     exit 0
