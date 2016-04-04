@@ -1,9 +1,8 @@
 
-ENV packages "wget git g++ curl make \
-        libxml2-dev libxslt-dev libgd-dev libtool autoconf"
+ENV build_packages "wget git g++ curl make libtool autoconf"
 
 RUN apt-get update \
-        && apt-get install -y $packages\
+        && apt-get install -y $build_packages libxml2-dev libxslt-dev libgd-dev \
         && apt-get upgrade -y \
 	&& rm -rf /var/lib/apt/lists/* \
         && cd /usr/local/src \
@@ -36,7 +35,7 @@ RUN apt-get update \
            --with-http_ssl_module --with-http_v2_module --with-threads \
         && make -j4 && make install \
         && rm -rf /usr/local/src && mkdir -p /usr/local/src \
-        && apt-get remove -y --purge $packages \
+        && apt-get remove -y --purge $build_packages \
         && apt-get autoremove -y
 
 # forward request and error logs to docker log collector
