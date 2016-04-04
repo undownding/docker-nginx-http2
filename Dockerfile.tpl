@@ -1,9 +1,12 @@
-RUN apt-get update \
-        && apt-get install -y wget git build-essential curl \
-        libxml2-dev libxslt-dev libgd-dev libtool autoconf \
-	&& rm -rf /var/lib/apt/lists/*
 
-RUN cd /usr/local/src \
+ENV packages "wget git g++ curl make \
+        libxml2-dev libxslt-dev libgd-dev libtool autoconf"
+
+RUN apt-get update \
+        && apt-get install -y $packages\
+        && apt-get upgrade -y \
+	&& rm -rf /var/lib/apt/lists/* \
+        && cd /usr/local/src \
         && wget http://www.openssl.org/source/openssl-$openssl_version.tar.gz \
         && wget http://zlib.net/zlib-$zlib_version.tar.gz \
         && wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$pcre_version.tar.gz \
@@ -14,11 +17,9 @@ RUN cd /usr/local/src \
         && git clone https://github.com/yaoweibin/ngx_http_substitutions_filter_module.git --depth=1 \
         && git clone https://github.com/nginx/nginx.git -b release-$nginx_version --depth=1 \
         && rm *.tar.gz \
-        && cd /usr/local/src/pcre-$pcre_version \
-        && ./configure && make && make install \
         && cd /usr/local/src/geoip-api-c \
         && ./bootstrap \
-        && ./configure && make && make install \
+        && ./configure && make -j4 && make install \
         && cd /usr/local/src/nginx \
         && ./auto/configure --with-cc-opt='-g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat \ 
            -Werror=format-security -D_FORTIFY_SOURCE=2' --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro' \
@@ -26,15 +27,17 @@ RUN cd /usr/local/src \
            --error-log-path=/var/log/nginx/error.log --lock-path=/var/lock/nginx.lock --pid-path=/run/nginx.pid \
            --http-client-body-temp-path=/var/lib/nginx/body --http-fastcgi-temp-path=/var/lib/nginx/fastcgi \
            --http-proxy-temp-path=/var/lib/nginx/proxy --http-scgi-temp-path=/var/lib/nginx/scgi \
-           --http-uwsgi-temp-path=/var/lib/nginx/uwsgi --with-debug --with-pcre-jit --with-ipv6 --with-http_ssl_module \
+           --http-uwsgi-temp-path=/var/lib/nginx/uwsgi --with-debug --with-pcre=/usr/local/src/pcre-$pcre_version --with-ipv6 --with-http_ssl_module \
            --with-http_stub_status_module --with-http_realip_module --with-http_addition_module --with-http_dav_module \
            --with-http_geoip_module --with-http_gzip_static_module --with-http_image_filter_module --with-http_sub_module \
            --with-http_xslt_module --with-mail --with-mail_ssl_module \
            --add-module=/usr/local/src/ngx_http_substitutions_filter_module --with-openssl=/usr/local/src/openssl-$openssl_version \
            --with-zlib=/usr/local/src/zlib-$zlib_version --with-stream --with-stream_ssl_module \
            --with-http_ssl_module --with-http_v2_module --with-threads \
-        && make install \
-        && rm -rf /usr/local/src && mkdir -p /usr/local/src
+        && make -j4 && make install \
+        && rm -rf /usr/local/src && mkdir -p /usr/local/src \
+        && apt-get remove -y --purge $packages \
+        && apt-get autoremove -y
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
