@@ -2,7 +2,7 @@
 
 **NGINX** : 1.10.0
 
-**OpenSSL** : 1.0.2g
+**OpenSSL** : 1.0.2h
 
 **zlib** : 1.2.8
 
