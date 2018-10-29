@@ -1,10 +1,10 @@
 FROM debian:jessie
 
-ENV nginx_version 1.13.5
-ENV openssl_version 1.1.0f
+ENV nginx_version 1.15.5
+ENV openssl_version 1.11
 ENV zlib_version 1.2.11
-ENV pcre_version 8.41
-ENV geoip_version 1.6.11
+ENV pcre_version 8.42
+ENV geoip_version 1.6.12
 
 
 ENV build_packages "wget git g++ curl make libtool autoconf"
