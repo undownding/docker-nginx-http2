@@ -22,7 +22,7 @@ url_geoip='https://api.github.com/repos/maxmind/geoip-api-c/tags'
 
 # Get verison by ArchLinux api
 version_nginx=$(echo $(get_version_from_github $url_nginx) | sed 's/release-//g')
-version_openssl=$(echo $(parse_json_from_url $url_openssl)
+version_openssl=$(echo $(parse_json_from_url $url_openssl))
 version_zlib=$(parse_json_from_url $url_zlib)
 version_pcre=$(parse_json_from_url $url_pcre)
 version_geoip=$(echo $(get_version_from_github $url_geoip) | sed 's/v//g')
