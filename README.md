@@ -1,8 +1,8 @@
 # Nginx docker image with http/2
 
-**NGINX** : 1.15.5
+**NGINX** : 1.15.6
 
-**OpenSSL** : 1.11
+**OpenSSL** : 1.1.1
 
 **zlib** : 1.2.11
 

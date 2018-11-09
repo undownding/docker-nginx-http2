@@ -1,1 +1,1 @@
-ENV nginx_version 1.15.5
+ENV nginx_version 1.15.6
