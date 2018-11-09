@@ -22,7 +22,7 @@ url_geoip='https://api.github.com/repos/maxmind/geoip-api-c/tags'
 
 # Get verison by ArchLinux api
 version_nginx=$(echo $(get_version_from_github $url_nginx) | sed 's/release-//g')
-version_openssl=$(echo $(parse_json_from_url $url_openssl) | sed 's/\(.*\)\.\(.*\)/\1\2/')
+version_openssl=$(echo $(parse_json_from_url $url_openssl)
 version_zlib=$(parse_json_from_url $url_zlib)
 version_pcre=$(parse_json_from_url $url_pcre)
 version_geoip=$(echo $(get_version_from_github $url_geoip) | sed 's/v//g')
@@ -82,7 +82,6 @@ if [ $comp_dockerfile -eq 1 ]; then
 
     git add -u && git commit -m "Update at `date -R`"
     while ! git push origin HEAD:master; do sleep 3; done
-    while ! git push coding HEAD:master; do sleep 3; done
 
 
     # If nginx version has changed, push the new one as a tag
@@ -91,7 +90,6 @@ if [ $comp_dockerfile -eq 1 ]; then
     if [ $comp_nginx -eq 1 ]; then
         git tag $version_nginx
         while ! git push origin $version_nginx; do sleep 3; done
-        while ! git push coding $version_nginx; do sleep 3; done
     fi
     
 fi
