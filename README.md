@@ -1,12 +1,12 @@
 # Nginx docker image with http/2
 
-**NGINX** : 1.15.6
+**NGINX** : 1.15.9
 
-**OpenSSL** : 1.1.1
+**OpenSSL** : 1.1.1.b
 
 **zlib** : 1.2.11
 
-**PCRE** : 8.42
+**PCRE** : 8.43
 
 **GeoIP** : 1.6.12
 
