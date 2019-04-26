@@ -1,6 +1,6 @@
 FROM debian:jessie
 
-ENV nginx_version 1.15.12
+ENV nginx_version 1.16.0
 ENV openssl_version 1.1.1.b
 ENV zlib_version 1.2.11
 ENV pcre_version 8.43
@@ -44,7 +44,6 @@ RUN apt-get update \
         && rm -rf /usr/local/src && mkdir -p /usr/local/src \
         && apt-get remove -y --purge $build_packages \
         && apt-get autoremove -y
-
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
