@@ -1,1 +1,1 @@
-ENV nginx_version 1.16.0
+ENV nginx_version 1.17.0
