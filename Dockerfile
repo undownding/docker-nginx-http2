@@ -41,11 +41,11 @@ RUN apk update \
            --with-http_ssl_module --with-http_v2_module --with-threads \
         && make -j4 && make install \
         && rm -rf /tmp/* \
-        && apk del $build_packages \
+        && apk del $build_packages
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
-  && ln -sf /dev/stderr /var/log/nginx/error.log 
+        && ln -sf /dev/stderr /var/log/nginx/error.log 
 
 RUN mkdir /var/lib/nginx 
 
