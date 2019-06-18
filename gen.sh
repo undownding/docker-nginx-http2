@@ -59,7 +59,7 @@ echo "ENV geoip_version $version_geoip" >> ./LIBRARY_VERSION
 mv ./Dockerfile ./OLD_Dockerfile
 
 # Generate a new Dockerfile
-echo 'FROM debian:jessie' > ./tmp
+echo 'FROM alpine' > ./tmp
 echo >> ./tmp
 cat ./NGINX_VERSION >> ./tmp
 cat ./LIBRARY_VERSION >> ./tmp
